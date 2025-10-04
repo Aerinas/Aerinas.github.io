@@ -8,7 +8,7 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 /><title>
-  Hello World | 香梨椰奶冰糕
+  11. Container With Most Water | 香梨椰奶冰糕
 </title>
 <meta
   name="description"
@@ -37,12 +37,12 @@
     crossorigin="anonymous"
   /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
 <meta property="og:type" content="website" />
-  <meta property="og:title" content="Hello World | 香梨椰奶冰糕" />
+  <meta property="og:title" content="11. Container With Most Water | 香梨椰奶冰糕" />
   <meta
     property="og:description"
     content="努力挣扎中..."
   />
-  <meta property="og:url" content="https://aerinas.github.io/post/hello/" />
+  <meta property="og:url" content="https://aerinas.github.io/post/11/" />
   <meta
     property="og:site_name"
     content="香梨椰奶冰糕的甜品屋"
@@ -52,8 +52,8 @@
     content="/"
   />
   <meta property="article:author" content="香梨椰奶冰糕" />
-  <meta property="article:published_time" content="2025-09-25T11:00:00-07:00" />
-  <meta property="article:modified_time" content="2027-03-15T11:00:00-07:00" /><meta name="twitter:card" content="summary" />
+  <meta property="article:published_time" content="2025-10-04T16:48:00&#43;10:00" />
+  <meta property="article:modified_time" content="2025-10-04T16:48:00&#43;10:00" /><meta name="twitter:card" content="summary" />
   <meta name="twitter:image" content="/" />
 <link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.59be63aea5a8791166a6250c1f74120959952ed0d41f2ee42e058613f6fb30a4.css" />
 <link
@@ -135,9 +135,9 @@
       </span><a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
   </nav>
   <nav id="sub-nav" aria-label="Secondary navigation"></nav></div>
-<header id="header" aria-label="Site header"><picture></picture><img  fetchpriority="high" src="/images/banner.webp" alt="Hello World"><div id="header-outer">
+<header id="header" aria-label="Site header"><picture></picture><img  fetchpriority="high" src="/images/banner.webp" alt="11. Container With Most Water"><div id="header-outer">
     <div id="header-title"><span id="logo">
-            <h1 data-aos="slide-up">Hello World</h1>
+            <h1 data-aos="slide-up">11. Container With Most Water</h1>
           </span><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
   </div>
 </header><div id="content"
@@ -149,7 +149,18 @@
       data-aos="fade-up"
     ><div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class">
-  <nav id="TableOfContents"></nav>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-container-with-most-water">11. Container With Most Water</a>
+      <ul>
+        <li><a href="#-题目描述">🔹 题目描述</a></li>
+        <li><a href="#-解题思路">🔹 解题思路</a></li>
+        <li><a href="#-关键点">🔹 关键点</a></li>
+        <li><a href="#-c-实现要点">🔹 C++ 实现要点</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 </div></div>
           <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
@@ -229,15 +240,52 @@
     class="article-date-link icon-calendar"
     data-aos="zoom-in"
   >
-    <time datetime="2025-09-25 11:00:00 -0700 -0700" itemprop="datePublished"
-      >2025-09-25</time
+    <time datetime="2025-10-04 16:48:00 &#43;1000 AEST" itemprop="datePublished"
+      >2025-10-04</time
     >
     <time style="display: none;" id="post-update-time"
-      >2027-03-15</time
+      >2025-10-04</time
     >
   </span></div>
 <div class="article-category"></div>
-</div><div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><p>First post</p>
+</div><div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="11-container-with-most-water">
+<a class="header-anchor" href="#11-container-with-most-water"></a>
+11. Container With Most Water
+</h2><h3 id="-题目描述">
+<a class="header-anchor" href="#-%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0"></a>
+🔹 题目描述
+</h3><p>给定数组 <code>height</code>，第 i 根柱子高度为 <code>height[i]</code>，与 j 根柱子能装水的面积为 <code>min(height[i], height[j]) * (j - i)</code>。求最大装水面积。</p>
+<h3 id="-解题思路">
+<a class="header-anchor" href="#-%e8%a7%a3%e9%a2%98%e6%80%9d%e8%b7%af"></a>
+🔹 解题思路
+</h3><ul>
+<li><strong>双指针夹逼</strong>：左指针 <code>l=0</code>、右指针 <code>r=n-1</code>。</li>
+<li>每轮计算当前面积，并更新答案。</li>
+<li>始终移动<strong>较短板</strong>那一侧（若相等随便动一侧）：
+<ul>
+<li>移动较短板才有机会使 <code>min(h_left, h_right)</code> 变大；移动较长板只会让宽度变小且短板不变，面积不可能增大。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-关键点">
+<a class="header-anchor" href="#-%e5%85%b3%e9%94%ae%e7%82%b9"></a>
+🔹 关键点
+</h3><ul>
+<li>循环条件：<code>l &lt; r</code>。</li>
+<li>每轮只移动一个指针（短板侧）。</li>
+<li>不需要排序，保持原下标的线性扫描即可。</li>
+</ul>
+<h3 id="-c-实现要点">
+<a class="header-anchor" href="#-c-%e5%ae%9e%e7%8e%b0%e8%a6%81%e7%82%b9"></a>
+🔹 C++ 实现要点
+</h3><ul>
+<li>指针初始化：<code>int left = 0, right = height.size() - 1;</code></li>
+<li>面积更新：<code>area = min(height[left], height[right]) * (right - left)</code></li>
+<li>更新答案后，移动较短板：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">height</span><span class="p">[</span><span class="n">right</span><span class="p">])</span> <span class="o">++</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="o">--</span><span class="n">right</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+</ul>
 </div>
     <footer class="article-footer"><ul class="article-tag-list" itemprop="keywords"></ul>
 </footer>
@@ -245,18 +293,18 @@
     id="article-nav"
     aria-label="Article navigation"
     data-aos="fade-up"
-  ><div class="article-nav-link-wrap right"><img
+  ><div class="article-nav-link-wrap left"><img
               data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
               data-sizes="auto"
-              alt="49. Group Anagrams"
+              alt="283. Move Zeroes"
               class="lazyload"
             /><a
-          href="/post/49/"
-          aria-label="后一篇:49. Group Anagrams"
-          title="后一篇:49. Group Anagrams"
+          href="/post/283/"
+          aria-label="前一篇:283. Move Zeroes"
+          title="前一篇:283. Move Zeroes"
         ></a>
-        <div class="article-nav-caption">后一篇</div>
-        <h3 class="article-nav-title">49. Group Anagrams</h3>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">283. Move Zeroes</h3>
       </div></nav></article></section>
         </div><footer id="footer" aria-label="Site footer">
   <div style="width: 100%; overflow: hidden">
@@ -306,7 +354,18 @@
       </div><nav id="mobile-nav" aria-label="Mobile navigation">
   <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class">
-  <nav id="TableOfContents"></nav>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-container-with-most-water">11. Container With Most Water</a>
+      <ul>
+        <li><a href="#-题目描述">🔹 题目描述</a></li>
+        <li><a href="#-解题思路">🔹 解题思路</a></li>
+        <li><a href="#-关键点">🔹 关键点</a></li>
+        <li><a href="#-c-实现要点">🔹 C++ 实现要点</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 </div></div>
         <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
@@ -409,9 +468,9 @@
   <div><script data-pjax>
         window.REIMU_POST = {
           author: "香梨椰奶冰糕",
-          title: "Hello World",
-          url: "https:\/\/aerinas.github.io\/post\/hello\/",
-          description: "First post\n",
+          title: "11. Container With Most Water",
+          url: "https:\/\/aerinas.github.io\/post\/11\/",
+          description: "\r11. Container With Most Water\r🔹 题目描述\r给定数组 height，第 i 根柱子高度为 height[i]，与 j 根柱子能装水的面积为 min(height[i], height[j]) * (j - i)。求最大装水面积。\n🔹 解题思路\r双指针夹逼：左指针 l=0、右指针 r=n-1。 每轮计算当前面积，并更新答案。 始终移动较短板那一侧（若相等随便动一侧）： 移动较短板才有机会使 min(h_left, h_right) 变大；移动较长板只会让宽度变小且短板不变，面积不可能增大。 🔹 关键点\r循环条件：l \u0026lt; r。 每轮只移动一个指针（短板侧）。  …",
           cover: "https:\/\/aerinas.github.io\/images\/banner.webp",
         };
       </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {

@@ -8,7 +8,7 @@
   name="viewport"
   content="width=device-width, initial-scale=1, shrink-to-fit=no"
 /><title>
-  Hello World | 香梨椰奶冰糕
+  283. Move Zeroes | 香梨椰奶冰糕
 </title>
 <meta
   name="description"
@@ -37,12 +37,12 @@
     crossorigin="anonymous"
   /><link rel="stylesheet" href="/css/loader.min.ac746e154f756f8220326eeb52a719f142ab038be5a8ddf30ea5ef15ef2356ea.css" />
 <meta property="og:type" content="website" />
-  <meta property="og:title" content="Hello World | 香梨椰奶冰糕" />
+  <meta property="og:title" content="283. Move Zeroes | 香梨椰奶冰糕" />
   <meta
     property="og:description"
     content="努力挣扎中..."
   />
-  <meta property="og:url" content="https://aerinas.github.io/post/hello/" />
+  <meta property="og:url" content="https://aerinas.github.io/post/283/" />
   <meta
     property="og:site_name"
     content="香梨椰奶冰糕的甜品屋"
@@ -52,8 +52,8 @@
     content="/"
   />
   <meta property="article:author" content="香梨椰奶冰糕" />
-  <meta property="article:published_time" content="2025-09-25T11:00:00-07:00" />
-  <meta property="article:modified_time" content="2027-03-15T11:00:00-07:00" /><meta name="twitter:card" content="summary" />
+  <meta property="article:published_time" content="2025-10-04T16:40:00&#43;10:00" />
+  <meta property="article:modified_time" content="2025-10-04T16:40:00&#43;10:00" /><meta name="twitter:card" content="summary" />
   <meta name="twitter:image" content="/" />
 <link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.min.59be63aea5a8791166a6250c1f74120959952ed0d41f2ee42e058613f6fb30a4.css" />
 <link
@@ -135,9 +135,9 @@
       </span><a id="main-nav-toggle" class="nav-icon" aria-label="Toggle navigation" role="button"></a>
   </nav>
   <nav id="sub-nav" aria-label="Secondary navigation"></nav></div>
-<header id="header" aria-label="Site header"><picture></picture><img  fetchpriority="high" src="/images/banner.webp" alt="Hello World"><div id="header-outer">
+<header id="header" aria-label="Site header"><picture></picture><img  fetchpriority="high" src="/images/banner.webp" alt="283. Move Zeroes"><div id="header-outer">
     <div id="header-title"><span id="logo">
-            <h1 data-aos="slide-up">Hello World</h1>
+            <h1 data-aos="slide-up">283. Move Zeroes</h1>
           </span><h2 id="subtitle-wrap" data-aos="slide-down"></h2></div>
   </div>
 </header><div id="content"
@@ -149,7 +149,18 @@
       data-aos="fade-up"
     ><div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class">
-  <nav id="TableOfContents"></nav>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#283-move-zeroes">283. Move Zeroes</a>
+      <ul>
+        <li><a href="#-题目描述">🔹 题目描述</a></li>
+        <li><a href="#-解题思路">🔹 解题思路</a></li>
+        <li><a href="#-关键点">🔹 关键点</a></li>
+        <li><a href="#-c-实现要点">🔹 C++ 实现要点</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 </div></div>
           <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
@@ -229,34 +240,91 @@
     class="article-date-link icon-calendar"
     data-aos="zoom-in"
   >
-    <time datetime="2025-09-25 11:00:00 -0700 -0700" itemprop="datePublished"
-      >2025-09-25</time
+    <time datetime="2025-10-04 16:40:00 &#43;1000 AEST" itemprop="datePublished"
+      >2025-10-04</time
     >
     <time style="display: none;" id="post-update-time"
-      >2027-03-15</time
+      >2025-10-04</time
     >
   </span></div>
 <div class="article-category"></div>
-</div><div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><p>First post</p>
-</div>
+</div><div class="hr-line"></div><div class="e-content article-entry" itemprop="articleBody"><h2 id="283-move-zeroes">
+<a class="header-anchor" href="#283-move-zeroes"></a>
+283. Move Zeroes
+</h2><h3 id="-题目描述">
+<a class="header-anchor" href="#-%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0"></a>
+🔹 题目描述
+</h3><p>给定一个数组 <code>nums</code>，编写一个函数将所有 <strong>0 移动到数组的末尾</strong>，同时保持非零元素的相对顺序。<br>
+必须在原地完成，不能拷贝额外数组。</p>
+<h3 id="-解题思路">
+<a class="header-anchor" href="#-%e8%a7%a3%e9%a2%98%e6%80%9d%e8%b7%af"></a>
+🔹 解题思路
+</h3><ul>
+<li><strong>思路 1（朴素法）</strong>：遇到 0 时往后找第一个非零数进行交换，最坏情况接近 O(n²)。</li>
+<li><strong>思路 2（双指针 O(n)）</strong>：
+<ul>
+<li>用 <code>lastNonZero</code> 指针表示下一个应该放非零数的位置。</li>
+<li>遍历数组，如果当前数非零，就把它放到 <code>lastNonZero</code> 位置，<code>lastNonZero++</code>。</li>
+<li>遍历完成后，把 <code>[lastNonZero, n)</code> 填 0。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-关键点">
+<a class="header-anchor" href="#-%e5%85%b3%e9%94%ae%e7%82%b9"></a>
+🔹 关键点
+</h3><ul>
+<li><strong>保持相对顺序</strong>：用“覆盖 + 最后填 0”的方式，而不是单纯交换。</li>
+<li><strong>空间限制</strong>：O(1)，只能原地修改。</li>
+<li><strong>两段操作</strong>：第一段搬运非零，第二段补零。</li>
+</ul>
+<h3 id="-c-实现要点">
+<a class="header-anchor" href="#-c-%e5%ae%9e%e7%8e%b0%e8%a6%81%e7%82%b9"></a>
+🔹 C++ 实现要点
+</h3><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl"><span class="k">public</span><span class="o">:</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">void</span> <span class="n">moveZeroes</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">nums</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">lastNonZero</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">nums</span><span class="p">[</span><span class="n">lastNonZero</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">lastNonZero</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></div></div>
     <footer class="article-footer"><ul class="article-tag-list" itemprop="keywords"></ul>
 </footer>
   </div><nav
     id="article-nav"
     aria-label="Article navigation"
     data-aos="fade-up"
-  ><div class="article-nav-link-wrap right"><img
+  ><div class="article-nav-link-wrap left"><img
               data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
               data-sizes="auto"
-              alt="49. Group Anagrams"
+              alt="15. 3Sum"
               class="lazyload"
             /><a
-          href="/post/49/"
-          aria-label="后一篇:49. Group Anagrams"
-          title="后一篇:49. Group Anagrams"
+          href="/post/15/"
+          aria-label="前一篇:15. 3Sum"
+          title="前一篇:15. 3Sum"
+        ></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">15. 3Sum</h3>
+      </div><div class="article-nav-link-wrap right"><img
+              data-src="https://d-sketon.top/img/_backwebp/bg1.webp"
+              data-sizes="auto"
+              alt="11. Container With Most Water"
+              class="lazyload"
+            /><a
+          href="/post/11/"
+          aria-label="后一篇:11. Container With Most Water"
+          title="后一篇:11. Container With Most Water"
         ></a>
         <div class="article-nav-caption">后一篇</div>
-        <h3 class="article-nav-title">49. Group Anagrams</h3>
+        <h3 class="article-nav-title">11. Container With Most Water</h3>
       </div></nav></article></section>
         </div><footer id="footer" aria-label="Site footer">
   <div style="width: 100%; overflow: hidden">
@@ -306,7 +374,18 @@
       </div><nav id="mobile-nav" aria-label="Mobile navigation">
   <div class="sidebar-wrap"><div class="sidebar-toc-sidebar"><h3 class="toc-title">文章目录</h3>
 <div class="sidebar-toc-wrapper toc-div-class">
-  <nav id="TableOfContents"></nav>
+  <nav id="TableOfContents">
+  <ul>
+    <li><a href="#283-move-zeroes">283. Move Zeroes</a>
+      <ul>
+        <li><a href="#-题目描述">🔹 题目描述</a></li>
+        <li><a href="#-解题思路">🔹 解题思路</a></li>
+        <li><a href="#-关键点">🔹 关键点</a></li>
+        <li><a href="#-c-实现要点">🔹 C++ 实现要点</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 </div></div>
         <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img
@@ -409,9 +488,9 @@
   <div><script data-pjax>
         window.REIMU_POST = {
           author: "香梨椰奶冰糕",
-          title: "Hello World",
-          url: "https:\/\/aerinas.github.io\/post\/hello\/",
-          description: "First post\n",
+          title: "283. Move Zeroes",
+          url: "https:\/\/aerinas.github.io\/post\/283\/",
+          description: "\r283. Move Zeroes\r🔹 题目描述\r给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。\n必须在原地完成，不能拷贝额外数组。\n",
           cover: "https:\/\/aerinas.github.io\/images\/banner.webp",
         };
       </script><script src="/js/insert_highlight.js" integrity="" crossorigin="anonymous" data-pjax></script><script type="module" data-pjax>const PhotoSwipeLightbox = (await safeImport("https:\/\/npm.webcache.cn\/photoswipe@5.4.4\/dist\/photoswipe-lightbox.esm.min.js", "sha384-DiL6M\/gG\u002bwmTxmCRZyD1zee6lIhawn5TGvED0FOh7fXcN9B0aZ9dexSF\/N6lrZi\/")).default;const initPswp = (gallery, children) => {

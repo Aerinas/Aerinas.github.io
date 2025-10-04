@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>香梨椰奶冰糕的甜品屋</title>
-    <link>http://localhost:1313/</link>
+    <link>https://aerinas.github.io/</link>
     <description>Recent content from 香梨椰奶冰糕的甜品屋</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
@@ -15,7 +15,7 @@
     <lastBuildDate>Mon, 15 Mar 2027 11:00:00 -0700</lastBuildDate>
     
     
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss&#43;xml" />
+    <atom:link href="https://aerinas.github.io/index.xml" rel="self" type="application/rss&#43;xml" />
     
 
     
@@ -23,16 +23,96 @@
 
     <item>
       <title>Hello World</title>
-      <link>http://localhost:1313/post/hello/</link>
+      <link>https://aerinas.github.io/post/hello/</link>
       <pubDate>Thu, 25 Sep 2025 11:00:00 -0700</pubDate>
       <author>703415977@qq.com (香梨椰奶冰糕)</author>
-      <guid>http://localhost:1313/post/hello/</guid>
+      <guid>https://aerinas.github.io/post/hello/</guid>
       <description>
         <![CDATA[<h1>Hello World</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
         
           <p>First post</p>
         
-        <hr><p>本文2025-09-25首发于<a href='http://localhost:1313/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2027-03-15</p>]]>
+        <hr><p>本文2025-09-25首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2027-03-15</p>]]>
+      </description>
+      
+    </item>
+    
+    
+
+    <item>
+      <title>11. Container With Most Water</title>
+      <link>https://aerinas.github.io/post/11/</link>
+      <pubDate>Sat, 04 Oct 2025 16:48:00 &#43;1000</pubDate>
+      <author>703415977@qq.com (香梨椰奶冰糕)</author>
+      <guid>https://aerinas.github.io/post/11/</guid>
+      <description>
+        <![CDATA[<h1>11. Container With Most Water</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
+        
+          <h2 id="11-container-with-most-water">
+<a class="header-anchor" href="#11-container-with-most-water"></a>
+11. Container With Most Water
+</h2><h3 id="-题目描述">
+<a class="header-anchor" href="#-%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0"></a>
+🔹 题目描述
+</h3><p>给定数组 <code>height</code>，第 i 根柱子高度为 <code>height[i]</code>，与 j 根柱子能装水的面积为 <code>min(height[i], height[j]) * (j - i)</code>。求最大装水面积。</p>
+<h3 id="-解题思路">
+<a class="header-anchor" href="#-%e8%a7%a3%e9%a2%98%e6%80%9d%e8%b7%af"></a>
+🔹 解题思路
+</h3><ul>
+<li><strong>双指针夹逼</strong>：左指针 <code>l=0</code>、右指针 <code>r=n-1</code>。</li>
+<li>每轮计算当前面积，并更新答案。</li>
+<li>始终移动<strong>较短板</strong>那一侧（若相等随便动一侧）：
+<ul>
+<li>移动较短板才有机会使 <code>min(h_left, h_right)</code> 变大；移动较长板只会让宽度变小且短板不变，面积不可能增大。</li>
+</ul>
+</li>
+</ul>
+<h3 id="-关键点">
+<a class="header-anchor" href="#-%e5%85%b3%e9%94%ae%e7%82%b9"></a>
+🔹 关键点
+</h3><ul>
+<li>循环条件：<code>l &lt; r</code>。</li>
+<li>每轮只移动一个指针（短板侧）。</li>
+<li>不需要排序，保持原下标的线性扫描即可。</li>
+</ul>
+<h3 id="-c-实现要点">
+<a class="header-anchor" href="#-c-%e5%ae%9e%e7%8e%b0%e8%a6%81%e7%82%b9"></a>
+🔹 C++ 实现要点
+</h3><ul>
+<li>指针初始化：<code>int left = 0, right = height.size() - 1;</code></li>
+<li>面积更新：<code>area = min(height[left], height[right]) * (right - left)</code></li>
+<li>更新答案后，移动较短板：
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">height</span><span class="p">[</span><span class="n">left</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">height</span><span class="p">[</span><span class="n">right</span><span class="p">])</span> <span class="o">++</span><span class="n">left</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">else</span> <span class="o">--</span><span class="n">right</span><span class="p">;</span>
+</span></span></code></pre></div></li>
+</ul>
+        
+        <hr><p>本文2025-10-04首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-10-04</p>]]>
+      </description>
+      
+    </item>
+    
+    
+
+    <item>
+      <title>283. Move Zeroes</title>
+      <link>https://aerinas.github.io/post/283/</link>
+      <pubDate>Sat, 04 Oct 2025 16:40:00 &#43;1000</pubDate>
+      <author>703415977@qq.com (香梨椰奶冰糕)</author>
+      <guid>https://aerinas.github.io/post/283/</guid>
+      <description>
+        <![CDATA[<h1>283. Move Zeroes</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
+        
+          <h2 id="283-move-zeroes">
+<a class="header-anchor" href="#283-move-zeroes"></a>
+283. Move Zeroes
+</h2><h3 id="-题目描述">
+<a class="header-anchor" href="#-%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0"></a>
+🔹 题目描述
+</h3><p>给定一个数组 <code>nums</code>，编写一个函数将所有 <strong>0 移动到数组的末尾</strong>，同时保持非零元素的相对顺序。<br>
+必须在原地完成，不能拷贝额外数组。</p>
+        
+        <hr><p>本文2025-10-04首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-10-04</p>]]>
       </description>
       
     </item>
@@ -41,10 +121,10 @@
 
     <item>
       <title>15. 3Sum</title>
-      <link>http://localhost:1313/post/15/</link>
+      <link>https://aerinas.github.io/post/15/</link>
       <pubDate>Sat, 04 Oct 2025 16:20:59 &#43;1000</pubDate>
       <author>703415977@qq.com (香梨椰奶冰糕)</author>
-      <guid>http://localhost:1313/post/15/</guid>
+      <guid>https://aerinas.github.io/post/15/</guid>
       <description>
         <![CDATA[<h1>15. 3Sum</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
         
@@ -96,7 +176,7 @@
 </span></span></code></pre></div></li>
 </ul>
         
-        <hr><p>本文2025-10-04首发于<a href='http://localhost:1313/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-10-04</p>]]>
+        <hr><p>本文2025-10-04首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-10-04</p>]]>
       </description>
       
     </item>
@@ -105,10 +185,10 @@
 
     <item>
       <title>1. Two Sum</title>
-      <link>http://localhost:1313/post/1/</link>
+      <link>https://aerinas.github.io/post/1/</link>
       <pubDate>Tue, 30 Sep 2025 22:20:00 &#43;1000</pubDate>
       <author>703415977@qq.com (香梨椰奶冰糕)</author>
-      <guid>http://localhost:1313/post/1/</guid>
+      <guid>https://aerinas.github.io/post/1/</guid>
       <description>
         <![CDATA[<h1>1. Two Sum</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
         
@@ -121,7 +201,7 @@
 </h3><p>给定一个整数数组 <code>nums</code> 和一个目标值 <code>target</code>，请你在该数组中找出和为目标值的 <strong>两个数的下标</strong>。<br>
 可以假设每种输入只会对应一个答案，但数组中同一个元素不能使用两遍。</p>
         
-        <hr><p>本文2025-09-30首发于<a href='http://localhost:1313/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-30</p>]]>
+        <hr><p>本文2025-09-30首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-30</p>]]>
       </description>
       
     </item>
@@ -130,10 +210,10 @@
 
     <item>
       <title>128. Longest Consecutive Sequence</title>
-      <link>http://localhost:1313/post/128/</link>
+      <link>https://aerinas.github.io/post/128/</link>
       <pubDate>Tue, 30 Sep 2025 21:50:00 &#43;1000</pubDate>
       <author>703415977@qq.com (香梨椰奶冰糕)</author>
-      <guid>http://localhost:1313/post/128/</guid>
+      <guid>https://aerinas.github.io/post/128/</guid>
       <description>
         <![CDATA[<h1>128. Longest Consecutive Sequence</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
         
@@ -211,7 +291,7 @@
 <li>剑指 Offer 38. 字符串的排列（需要去重 + 枚举连续）</li>
 </ul>
         
-        <hr><p>本文2025-09-30首发于<a href='http://localhost:1313/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-30</p>]]>
+        <hr><p>本文2025-09-30首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-30</p>]]>
       </description>
       
     </item>
@@ -220,10 +300,10 @@
 
     <item>
       <title>49. Group Anagrams</title>
-      <link>http://localhost:1313/post/49/</link>
+      <link>https://aerinas.github.io/post/49/</link>
       <pubDate>Mon, 29 Sep 2025 22:00:00 &#43;1000</pubDate>
       <author>703415977@qq.com (香梨椰奶冰糕)</author>
-      <guid>http://localhost:1313/post/49/</guid>
+      <guid>https://aerinas.github.io/post/49/</guid>
       <description>
         <![CDATA[<h1>49. Group Anagrams</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
         
@@ -332,25 +412,7 @@
 </li>
 </ul>
         
-        <hr><p>本文2025-09-29首发于<a href='http://localhost:1313/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-29</p>]]>
-      </description>
-      
-    </item>
-    
-    
-
-    <item>
-      <title>Post2</title>
-      <link>http://localhost:1313/post/post2/</link>
-      <pubDate>Fri, 26 Sep 2025 10:01:46 &#43;1000</pubDate>
-      <author>703415977@qq.com (香梨椰奶冰糕)</author>
-      <guid>http://localhost:1313/post/post2/</guid>
-      <description>
-        <![CDATA[<h1>Post2</h1><p>作者：香梨椰奶冰糕（703415977@qq.com）</p>
-        
-          <p>123</p>
-        
-        <hr><p>本文2025-09-26首发于<a href='http://localhost:1313/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-26</p>]]>
+        <hr><p>本文2025-09-29首发于<a href='https://aerinas.github.io/'>香梨椰奶冰糕的甜品屋</a>，最后修改于2025-09-29</p>]]>
       </description>
       
     </item>
