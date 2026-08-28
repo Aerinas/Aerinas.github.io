@@ -2,6 +2,7 @@
 title = 'GAMES101 Assignment 2：三角形光栅化与深度缓冲'
 date = 2026-08-28T15:35:19+10:00
 draft = false
+math = true
 description = 'GAMES101 Assignment 2 学习笔记：包围盒、像素中心采样、三角形内测试、重心坐标、透视正确插值、Z-buffer 与 MSAA。'
 categories = ['计算机图形学']
 tags = ['GAMES101', 'Assignment 2', '光栅化', '重心坐标', 'Z-buffer', 'MSAA', 'C++']
@@ -84,24 +85,24 @@ const int maxY = std::min(height - 1, static_cast<int>(std::ceil(maxYf)));
 
 二维叉积只需要计算 Z 分量：
 
-\[
+{{< math >}}
 \operatorname{cross}(\mathbf a,\mathbf b)
 =a_xb_y-a_yb_x
-\]
+{{< /math >}}
 
 分别计算：
 
-\[
+{{< math >}}
 (B-A)\times(P-A)
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 (C-B)\times(P-B)
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 (A-C)\times(P-C)
-\]
+{{< /math >}}
 
 三个结果同号，点就在三角形内部或边界上。
 
@@ -139,15 +140,15 @@ static bool insideTriangle(float x,
 
 点 `P` 位于三角形内部时，可以写成三个顶点的加权和：
 
-\[
+{{< math >}}
 P=\alpha A+\beta B+\gamma C
-\]
+{{< /math >}}
 
 并且：
 
-\[
+{{< math >}}
 \alpha+\beta+\gamma=1
-\]
+{{< /math >}}
 
 三角形内部的三个权重均为非负。靠近哪个顶点，对应权重就越大；落在某条边上时，对面顶点的权重为零。
 
@@ -193,14 +194,14 @@ computeBarycentric2D(float x,
 
 对于顶点属性 `q0`、`q1`、`q2`：
 
-\[
+{{< math >}}
 q(P)=
 \frac{
 \alpha q_0/w_0+\beta q_1/w_1+\gamma q_2/w_2
 }{
 \alpha/w_0+\beta/w_1+\gamma/w_2
 }
-\]
+{{< /math >}}
 
 深度插值可以写成：
 
@@ -318,9 +319,9 @@ constexpr std::array<Eigen::Vector2f, 4> offsets{{
 
 每个子采样点分别执行覆盖测试和深度测试，最后对四个颜色求平均：
 
-\[
+{{< math >}}
 C_{pixel}=\frac{C_0+C_1+C_2+C_3}{4}
-\]
+{{< /math >}}
 
 只统计“四个点中有几个在三角形内”，然后用覆盖率乘颜色，在单个三角形演示中看起来可能正确；但当多个三角形在同一像素内互相遮挡时会失败。正确实现需要保存每个子样本自己的深度和颜色：
 

@@ -3,6 +3,7 @@ title = 'GAMES101 Assignment 1：MVP 变换与透视投影'
 date = 2026-08-24T01:43:18+10:00
 lastmod = 2026-08-28T15:35:19+10:00
 draft = false
+math = true
 description = 'GAMES101 Assignment 1 学习笔记：从坐标空间、齐次坐标和相似三角形出发，推导模型、观察与透视投影矩阵。'
 categories = ['计算机图形学']
 tags = ['GAMES101', 'Assignment 1', 'MVP', '透视投影', 'OpenGL', 'Eigen', '渲染管线']
@@ -30,11 +31,11 @@ Assignment 1 主要完成以下任务：
 
 在三维图形学中，模型通常定义在自己的局部坐标系里，而屏幕最终只能显示二维像素。为了把一个三维顶点变换到屏幕上，需要依次经过模型变换、观察变换和投影变换，也就是常说的 MVP 变换：
 
-\[
+{{< math >}}
 \mathbf p_{clip}
 =
 \mathbf P\mathbf V\mathbf M\mathbf p_{local}
-\]
+{{< /math >}}
 
 其中：
 
@@ -116,31 +117,31 @@ std::vector<Eigen::Vector3f> positions{
 
 此时坐标还是四维齐次坐标：
 
-\[
+{{< math >}}
 (x_{clip},y_{clip},z_{clip},w_{clip})
-\]
+{{< /math >}}
 
 ### 5. NDC
 
 对裁剪坐标执行透视除法：
 
-\[
+{{< math >}}
 x_{ndc}=\frac{x_{clip}}{w_{clip}}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{ndc}=\frac{y_{clip}}{w_{clip}}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 z_{ndc}=\frac{z_{clip}}{w_{clip}}
-\]
+{{< /math >}}
 
 得到标准化设备坐标 NDC。可见区域通常被规范化到：
 
-\[
+{{< math >}}
 x,y,z\in[-1,1]
-\]
+{{< /math >}}
 
 ### 6. 屏幕空间
 
@@ -152,25 +153,25 @@ x,y,z\in[-1,1]
 
 三维点原本表示为：
 
-\[
+{{< math >}}
 \mathbf p=
 \begin{bmatrix}
 x\\y\\z
 \end{bmatrix}
-\]
+{{< /math >}}
 
 为了统一描述旋转、缩放、平移和投影，需要将其扩展为齐次坐标：
 
-\[
+{{< math >}}
 \mathbf p_h=
 \begin{bmatrix}
 x\\y\\z\\1
 \end{bmatrix}
-\]
+{{< /math >}}
 
 齐次坐标最直接的优势是可以把平移也写成矩阵乘法：
 
-\[
+{{< math >}}
 \begin{bmatrix}
 1&0&0&t_x\\
 0&1&0&t_y\\
@@ -187,13 +188,13 @@ y+t_y\\
 z+t_z\\
 1
 \end{bmatrix}
-\]
+{{< /math >}}
 
 点通常使用 \(w=1\)，方向向量通常使用 \(w=0\)。
 
 当 \(w=0\) 时，平移量不会影响方向向量：
 
-\[
+{{< math >}}
 \begin{bmatrix}
 R&t\\
 0&1
@@ -205,7 +206,7 @@ R&t\\
 \begin{bmatrix}
 R\mathbf v\\0
 \end{bmatrix}
-\]
+{{< /math >}}
 
 因此：
 
@@ -222,9 +223,9 @@ R\mathbf v\\0
 
 通常可以由缩放、旋转和平移组合得到：
 
-\[
+{{< math >}}
 M=TRS
-\]
+{{< /math >}}
 
 对于列向量，这意味着顶点实际依次经历：
 
@@ -236,9 +237,9 @@ Scale → Rotate → Translate
 
 矩阵乘法一般不可交换：
 
-\[
+{{< math >}}
 TR\neq RT
-\]
+{{< /math >}}
 
 所以“先旋转再平移”和“先平移再旋转”通常会得到完全不同的结果。
 
@@ -250,7 +251,7 @@ TR\neq RT
 
 旋转矩阵为：
 
-\[
+{{< math >}}
 R_z(\theta)=
 \begin{bmatrix}
 \cos\theta&-\sin\theta&0&0\\
@@ -258,15 +259,15 @@ R_z(\theta)=
 0&0&1&0\\
 0&0&0&1
 \end{bmatrix}
-\]
+{{< /math >}}
 
 C++ 三角函数使用弧度，因此需要将角度转换为弧度：
 
-\[
+{{< math >}}
 \theta_{rad}
 =
 \theta_{degree}\frac{\pi}{180}
-\]
+{{< /math >}}
 
 Eigen 实现如下：
 
@@ -289,19 +290,19 @@ Eigen::Matrix4f get_model_matrix(float rotation_angle)
 
 例如，将点 \((1,0,0)\) 绕 Z 轴旋转 \(90^\circ\)：
 
-\[
+{{< math >}}
 x'=\cos90^\circ=0
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y'=\sin90^\circ=1
-\]
+{{< /math >}}
 
 所以：
 
-\[
+{{< math >}}
 (1,0,0)\rightarrow(0,1,0)
-\]
+{{< /math >}}
 
 ---
 
@@ -311,27 +312,27 @@ y'=\sin90^\circ=1
 
 假设相机的世界变换为：
 
-\[
+{{< math >}}
 C=T_cR_c
-\]
+{{< /math >}}
 
 那么观察矩阵就是：
 
-\[
+{{< math >}}
 V=C^{-1}
-\]
+{{< /math >}}
 
 也就是：
 
-\[
+{{< math >}}
 V=R_c^{-1}T_c^{-1}
-\]
+{{< /math >}}
 
 对于正交旋转矩阵：
 
-\[
+{{< math >}}
 R^{-1}=R^T
-\]
+{{< /math >}}
 
 因此实际构造观察矩阵时，通常会使用相机旋转的转置以及相机位置的反向平移。
 
@@ -341,19 +342,19 @@ R^{-1}=R^T
 
 如果相机没有旋转，只位于：
 
-\[
+{{< math >}}
 \mathbf e=(e_x,e_y,e_z)
-\]
+{{< /math >}}
 
 那么只需把整个世界平移：
 
-\[
+{{< math >}}
 -\mathbf e
-\]
+{{< /math >}}
 
 观察矩阵为：
 
-\[
+{{< math >}}
 V=
 \begin{bmatrix}
 1&0&0&-e_x\\
@@ -361,7 +362,7 @@ V=
 0&0&1&-e_z\\
 0&0&0&1
 \end{bmatrix}
-\]
+{{< /math >}}
 
 代码如下：
 
@@ -425,25 +426,25 @@ eye = (0, 0, 5)
 
 观察空间中有一点：
 
-\[
+{{< math >}}
 P=(x,y,z)
-\]
+{{< /math >}}
 
 相机前方的点满足：
 
-\[
+{{< math >}}
 z<0
-\]
+{{< /math >}}
 
 根据相似三角形，投影后的坐标满足：
 
-\[
+{{< math >}}
 x'\propto\frac{x}{-z}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y'\propto\frac{y}{-z}
-\]
+{{< /math >}}
 
 这已经体现出透视效果：
 
@@ -454,9 +455,9 @@ y'\propto\frac{y}{-z}
 
 解决办法是先让：
 
-\[
+{{< math >}}
 w_{clip}=-z
-\]
+{{< /math >}}
 
 然后由图形流水线统一进行透视除法。
 
@@ -466,21 +467,21 @@ w_{clip}=-z
 
 为了得到：
 
-\[
+{{< math >}}
 w_{clip}=-z
-\]
+{{< /math >}}
 
 可以把投影矩阵的最后一行设置为：
 
-\[
+{{< math >}}
 \begin{bmatrix}
 0&0&-1&0
 \end{bmatrix}
-\]
+{{< /math >}}
 
 于是：
 
-\[
+{{< math >}}
 \begin{bmatrix}
 0&0&-1&0
 \end{bmatrix}
@@ -488,7 +489,7 @@ w_{clip}=-z
 x\\y\\z\\1
 \end{bmatrix}
 =-z
-\]
+{{< /math >}}
 
 代码对应：
 
@@ -498,9 +499,9 @@ projection(3, 2) = -1.0f;
 
 经过投影矩阵后：
 
-\[
+{{< math >}}
 w_{clip}=-z_{view}
-\]
+{{< /math >}}
 
 随后执行透视除法：
 
@@ -518,51 +519,51 @@ vertex /= vertex.w();
 
 设垂直视野角为：
 
-\[
+{{< math >}}
 \theta=\mathrm{FOV}_y
-\]
+{{< /math >}}
 
 在距离相机 \(d\) 的位置，视锥体顶部的高度为：
 
-\[
+{{< math >}}
 t=d\tan\frac{\theta}{2}
-\]
+{{< /math >}}
 
 我们希望这个上边界在透视除法后映射到：
 
-\[
+{{< math >}}
 y_{ndc}=1
-\]
+{{< /math >}}
 
 设 Y 方向缩放系数为 \(s\)，则：
 
-\[
+{{< math >}}
 y_{clip}=sy
-\]
+{{< /math >}}
 
 又因为：
 
-\[
+{{< math >}}
 w_{clip}=d=-z
-\]
+{{< /math >}}
 
 所以：
 
-\[
+{{< math >}}
 y_{ndc}
 =
 \frac{sy}{d}
-\]
+{{< /math >}}
 
 将视锥顶部：
 
-\[
+{{< math >}}
 y=d\tan\frac{\theta}{2}
-\]
+{{< /math >}}
 
 代入：
 
-\[
+{{< math >}}
 1
 =
 \frac{
@@ -570,23 +571,23 @@ s d\tan(\theta/2)
 }{
 d
 }
-\]
+{{< /math >}}
 
 消去 \(d\)：
 
-\[
+{{< math >}}
 1=s\tan\frac{\theta}{2}
-\]
+{{< /math >}}
 
 因此：
 
-\[
+{{< math >}}
 s
 =
 \frac{1}{
 \tan(\theta/2)
 }
-\]
+{{< /math >}}
 
 代码如下：
 
@@ -602,9 +603,9 @@ projection(1, 1) = scale;
 
 FOV 越大：
 
-\[
+{{< math >}}
 \tan(\mathrm{FOV}/2)
-\]
+{{< /math >}}
 
 越大，因此 `scale` 越小，画面中的物体也越小，可见范围越广。
 
@@ -616,15 +617,15 @@ FOV 越大：
 
 屏幕宽高比定义为：
 
-\[
+{{< math >}}
 a=\frac{width}{height}
-\]
+{{< /math >}}
 
 在保持垂直 FOV 不变时，宽屏能够在水平方向显示更大的范围，因此 X 方向需要额外除以宽高比：
 
-\[
+{{< math >}}
 x_{scale}=\frac{s}{a}
-\]
+{{< /math >}}
 
 所以：
 
@@ -635,19 +636,19 @@ projection(1, 1) = scale;
 
 透视除法后的 XY 坐标为：
 
-\[
+{{< math >}}
 x_{ndc}
 =
 \frac{s}{a}
 \frac{x}{-z}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{ndc}
 =
 s
 \frac{y}{-z}
-\]
+{{< /math >}}
 
 ---
 
@@ -661,35 +662,35 @@ XY 坐标决定点在屏幕上的位置，Z 坐标则用于：
 
 设：
 
-\[
+{{< math >}}
 n=zNear
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 F=zFar
-\]
+{{< /math >}}
 
 `zNear` 和 `zFar` 通常作为正距离传入。
 
 因为相机朝负 Z 轴观察，所以它们在观察空间中的实际位置是：
 
-\[
+{{< math >}}
 z_{near}=-n
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 z_{far}=-F
-\]
+{{< /math >}}
 
 在 OpenGL 风格的 NDC 中，希望：
 
-\[
+{{< math >}}
 z=-n\rightarrow z_{ndc}=-1
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 z=-F\rightarrow z_{ndc}=1
-\]
+{{< /math >}}
 
 ---
 
@@ -697,23 +698,23 @@ z=-F\rightarrow z_{ndc}=1
 
 设：
 
-\[
+{{< math >}}
 z_{clip}=Az+B
-\]
+{{< /math >}}
 
 因为已经确定：
 
-\[
+{{< math >}}
 w_{clip}=-z
-\]
+{{< /math >}}
 
 透视除法后：
 
-\[
+{{< math >}}
 z_{ndc}
 =
 \frac{Az+B}{-z}
-\]
+{{< /math >}}
 
 现在只需要求出 \(A\) 和 \(B\)。
 
@@ -723,27 +724,27 @@ z_{ndc}
 
 在近裁剪面：
 
-\[
+{{< math >}}
 z=-n
-\]
+{{< /math >}}
 
 并且要求：
 
-\[
+{{< math >}}
 z_{ndc}=-1
-\]
+{{< /math >}}
 
 代入：
 
-\[
+{{< math >}}
 \frac{-An+B}{n}=-1
-\]
+{{< /math >}}
 
 整理得到：
 
-\[
+{{< math >}}
 -An+B=-n
-\]
+{{< /math >}}
 
 ---
 
@@ -751,27 +752,27 @@ z_{ndc}=-1
 
 在远裁剪面：
 
-\[
+{{< math >}}
 z=-F
-\]
+{{< /math >}}
 
 并且要求：
 
-\[
+{{< math >}}
 z_{ndc}=1
-\]
+{{< /math >}}
 
 代入：
 
-\[
+{{< math >}}
 \frac{-AF+B}{F}=1
-\]
+{{< /math >}}
 
 整理得到：
 
-\[
+{{< math >}}
 -AF+B=F
-\]
+{{< /math >}}
 
 ---
 
@@ -779,41 +780,41 @@ z_{ndc}=1
 
 联立：
 
-\[
+{{< math >}}
 -An+B=-n
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 -AF+B=F
-\]
+{{< /math >}}
 
 两式相减：
 
-\[
+{{< math >}}
 -A(F-n)=F+n
-\]
+{{< /math >}}
 
 因此：
 
-\[
+{{< math >}}
 A=-\frac{F+n}{F-n}
-\]
+{{< /math >}}
 
 再代回原式：
 
-\[
+{{< math >}}
 B=-\frac{2Fn}{F-n}
-\]
+{{< /math >}}
 
 所以深度部分为：
 
-\[
+{{< math >}}
 z_{clip}
 =
 -\frac{F+n}{F-n}z
 -
 \frac{2Fn}{F-n}
-\]
+{{< /math >}}
 
 代码对应：
 
@@ -831,17 +832,17 @@ projection(2, 3) =
 
 令：
 
-\[
+{{< math >}}
 s=\frac{1}{\tan(\mathrm{FOV}_y/2)}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 a=\mathrm{aspect}
-\]
+{{< /math >}}
 
 最终得到：
 
-\[
+{{< math >}}
 P=
 \begin{bmatrix}
 \frac{s}{a}&0&0&0\\
@@ -849,7 +850,7 @@ P=
 0&0&-\frac{F+n}{F-n}&-\frac{2Fn}{F-n}\\
 0&0&-1&0
 \end{bmatrix}
-\]
+{{< /math >}}
 
 Eigen 实现：
 
@@ -911,61 +912,61 @@ projection <<
 
 将观察空间点：
 
-\[
+{{< math >}}
 \mathbf p_{view}
 =
 \begin{bmatrix}
 x\\y\\z\\1
 \end{bmatrix}
-\]
+{{< /math >}}
 
 乘以投影矩阵：
 
-\[
+{{< math >}}
 \mathbf p_{clip}=P\mathbf p_{view}
-\]
+{{< /math >}}
 
 得到：
 
-\[
+{{< math >}}
 x_{clip}
 =
 \frac{s}{a}x
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{clip}=sy
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 z_{clip}
 =
 -\frac{F+n}{F-n}z
 -
 \frac{2Fn}{F-n}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 w_{clip}=-z
-\]
+{{< /math >}}
 
 透视除法之后：
 
-\[
+{{< math >}}
 x_{ndc}
 =
 \frac{s}{a}
 \frac{x}{-z}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{ndc}
 =
 s
 \frac{y}{-z}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 z_{ndc}
 =
 \frac{
@@ -973,7 +974,7 @@ z_{ndc}
 }{
 -z
 }
-\]
+{{< /math >}}
 
 XY 中出现了 \(1/(-z)\)，所以产生近大远小。
 
@@ -983,19 +984,19 @@ XY 中出现了 \(1/(-z)\)，所以产生近大远小。
 
 整理深度公式：
 
-\[
+{{< math >}}
 z_{ndc}
 =
 \frac{F+n}{F-n}
 +
 \frac{2Fn}{(F-n)z}
-\]
+{{< /math >}}
 
 其中存在：
 
-\[
+{{< math >}}
 \frac{1}{z}
-\]
+{{< /math >}}
 
 所以深度值相对于观察空间距离不是线性的。
 
@@ -1039,7 +1040,7 @@ for (auto& vertex : vertices)
 
 即：
 
-\[
+{{< math >}}
 (x,y,z,w)
 \rightarrow
 \left(
@@ -1048,7 +1049,7 @@ for (auto& vertex : vertices)
 \frac{z}{w},
 1
 \right)
-\]
+{{< /math >}}
 
 透视除法完成后得到 NDC。
 
@@ -1060,25 +1061,25 @@ for (auto& vertex : vertices)
 
 NDC 的 XY 范围是：
 
-\[
+{{< math >}}
 [-1,1]
-\]
+{{< /math >}}
 
 需要将其映射到实际屏幕尺寸。
 
 对于宽度 \(W\)、高度 \(H\)：
 
-\[
+{{< math >}}
 x_{screen}
 =
 \frac{W}{2}(x_{ndc}+1)
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{screen}
 =
 \frac{H}{2}(y_{ndc}+1)
-\]
+{{< /math >}}
 
 代码形式：
 
@@ -1120,23 +1121,23 @@ far    = 50
 
 那么：
 
-\[
+{{< math >}}
 s=
 \frac{1}{\tan22.5^\circ}
 \approx2.414
-\]
+{{< /math >}}
 
 某个模型顶点为：
 
-\[
+{{< math >}}
 (2,0,-2)
-\]
+{{< /math >}}
 
 相机位于：
 
-\[
+{{< math >}}
 (0,0,5)
-\]
+{{< /math >}}
 
 并且模型没有旋转。
 
@@ -1146,53 +1147,53 @@ s=
 
 模型矩阵为单位矩阵：
 
-\[
+{{< math >}}
 \mathbf p_{world}=(2,0,-2)
-\]
+{{< /math >}}
 
 ### 2. 观察变换
 
 世界整体平移 \((0,0,-5)\)：
 
-\[
+{{< math >}}
 \mathbf p_{view}=(2,0,-7)
-\]
+{{< /math >}}
 
 ### 3. 投影与透视除法
 
 X 方向的 NDC 坐标为：
 
-\[
+{{< math >}}
 x_{ndc}
 =
 2.414\frac{2}{7}
 \approx0.69
-\]
+{{< /math >}}
 
 Y 坐标为：
 
-\[
+{{< math >}}
 y_{ndc}=0
-\]
+{{< /math >}}
 
 ### 4. 视口变换
 
 屏幕大小为 \(700\times700\)：
 
-\[
+{{< math >}}
 x_{screen}
 =
 350(0.69+1)
 \approx592
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{screen}
 =
 350(0+1)
 =
 350
-\]
+{{< /math >}}
 
 因此该顶点会出现在屏幕中心右侧，大约为：
 
@@ -1230,11 +1231,11 @@ clip_position
 
 也就是：
 
-\[
+{{< math >}}
 \mathbf p_{clip}
 =
 P(V(M\mathbf p_{local}))
-\]
+{{< /math >}}
 
 不能写成：
 
@@ -1337,15 +1338,15 @@ far  > 0
 
 OpenGL 传统 NDC 深度范围为：
 
-\[
+{{< math >}}
 [-1,1]
-\]
+{{< /math >}}
 
 Direct3D 和常见 Vulkan 配置通常使用：
 
-\[
+{{< math >}}
 [0,1]
-\]
+{{< /math >}}
 
 另外，不同 API 对 Y 轴方向也可能有不同约定。矩阵公式不能脱离坐标系和 API 约定单独讨论。
 
@@ -1379,13 +1380,13 @@ height - y
 
 MVP 变换可以概括为：
 
-\[
+{{< math >}}
 \boxed{
 \mathbf p_{clip}
 =
 \mathbf P\mathbf V\mathbf M\mathbf p_{local}
 }
-\]
+{{< /math >}}
 
 其中：
 
@@ -1395,35 +1396,35 @@ MVP 变换可以概括为：
 
 透视投影最核心的设计是：
 
-\[
+{{< math >}}
 \boxed{w_{clip}=-z_{view}}
-\]
+{{< /math >}}
 
 后续通过透视除法：
 
-\[
+{{< math >}}
 \boxed{
 x_{ndc}=\frac{x_{clip}}{w_{clip}},
 \quad
 y_{ndc}=\frac{y_{clip}}{w_{clip}}
 }
-\]
+{{< /math >}}
 
 得到：
 
-\[
+{{< math >}}
 x_{ndc}\propto\frac{x}{-z}
-\]
+{{< /math >}}
 
-\[
+{{< math >}}
 y_{ndc}\propto\frac{y}{-z}
-\]
+{{< /math >}}
 
 于是自然产生近大远小。
 
 完整透视矩阵为：
 
-\[
+{{< math >}}
 \boxed{
 P=
 \begin{bmatrix}
@@ -1433,7 +1434,7 @@ P=
 0&0&-1&0
 \end{bmatrix}
 }
-\]
+{{< /math >}}
 
 它不是一个需要死记硬背的公式，而是由以下条件共同决定的：
 

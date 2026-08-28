@@ -11,6 +11,10 @@ hasCJKLanguage = true
 [markup.highlight]
 guessSyntax = true
 noClasses = false 
+[markup.goldmark.extensions.passthrough]
+enable = true
+delimiters.block = [['\[', '\]'], ['$$', '$$']]
+delimiters.inline = [['\(', '\)'], ['$', '$']]
 [caches]
 [caches.images]
 dir = ':cacheDir/images'
