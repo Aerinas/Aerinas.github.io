@@ -1,11 +1,32 @@
 +++
-title = '从三维顶点到二维屏幕：MVP 变换与透视投影矩阵推导'
+title = 'GAMES101 Assignment 1：MVP 变换与透视投影'
 date = 2026-08-24T01:43:18+10:00
-draft = true
-description = '从坐标空间、齐次坐标和相似三角形出发，完整推导 MVP 变换、OpenGL 透视投影矩阵、透视除法与视口变换。'
+lastmod = 2026-08-28T15:35:19+10:00
+draft = false
+description = 'GAMES101 Assignment 1 学习笔记：从坐标空间、齐次坐标和相似三角形出发，推导模型、观察与透视投影矩阵。'
 categories = ['计算机图形学']
-tags = ['MVP', '透视投影', 'OpenGL', 'Eigen', '渲染管线']
+tags = ['GAMES101', 'Assignment 1', 'MVP', '透视投影', 'OpenGL', 'Eigen', '渲染管线']
+series = ['GAMES101 作业笔记']
+url = '/post/games101-assignment-1/'
+aliases = ['/post/mvp-transform-and-perspective-projection/']
 +++
+
+这篇文章整理的是 GAMES101 Assignment 1：Rotation and Projection。作业的重点不只是补齐几个矩阵，而是亲手打通“局部坐标如何变成屏幕像素”这条最基础的渲染路径。
+
+## 作业目标与完成内容
+
+Assignment 1 主要完成以下任务：
+
+1. 构造绕 Z 轴旋转的模型矩阵；
+2. 根据相机位置构造观察矩阵；
+3. 根据视场角、宽高比和近远裁剪面构造透视投影矩阵；
+4. 按照 `Projection * View * Model * position` 的顺序变换顶点；
+5. 理解透视除法和视口变换如何把顶点送到屏幕上；
+6. 可选地用 Rodrigues 公式实现绕任意轴旋转。
+
+我从这次作业中得到的关键认识是：矩阵的每一行并不是魔法常量，它们分别对应坐标系约定、相机逆变换、视锥体压缩和深度区间映射。先固定约定，再推公式，比直接背矩阵可靠得多。
+
+> 本文使用列向量、右手坐标系、相机朝负 Z 轴观察，并采用 OpenGL 风格的 NDC 深度范围。阅读其他资料或图形 API 的公式时，应先检查这些约定是否一致。
 
 在三维图形学中，模型通常定义在自己的局部坐标系里，而屏幕最终只能显示二维像素。为了把一个三维顶点变换到屏幕上，需要依次经过模型变换、观察变换和投影变换，也就是常说的 MVP 变换：
 
